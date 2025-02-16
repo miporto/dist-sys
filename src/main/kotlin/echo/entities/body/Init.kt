@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 @SerialName("init")
 data class Init(
     override val messageType: String = "init",
-    val msgId: Int,
+    override val msgId: Int,
     val nodeId: String,
     val nodeIds: List<String>
 ) : Body()

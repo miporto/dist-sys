@@ -4,9 +4,10 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-@SerialName("init_ok")
-data class InitOk(
-    override val messageType: String = "init_ok",
+@SerialName("generate_ok")
+data class GenerateOk(
+    override val messageType: String = "generate_ok",
     override val msgId: Int,
-    val inReplyTo: Int
-) : Body()
+    val inReplyTo: Int,
+    val id: String
+): Body()

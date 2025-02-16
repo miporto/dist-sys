@@ -1,18 +1,51 @@
 package org.example.echo
 
 import org.example.echo.entities.Message
-import org.example.echo.entities.body.Body
+import org.example.echo.entities.body.*
 
 class Node(
-    var id: String,
-    var msgId: Int,
+    private val id: String,
+    private var msgId: Int,
     var nodesIds: List<String>
 ) {
-    fun reply(message: Message, body: Body): Message {
+
+    private fun incrementMessageId() {
+        msgId += 1
+    }
+
+    private fun buildResponseMessage(message: Message, responseBody: Body): Message {
         return message.copy(
-            src = message.dest,
+            src = id,
             dest = message.src,
-            body = body
+            body = responseBody
+        )
+    }
+
+    fun reply(message: Message, body: Init): Message {
+        incrementMessageId()
+        val responseBody = InitOk(msgId = msgId, inReplyTo = body.msgId)
+        return buildResponseMessage(message, responseBody)
+    }
+
+    fun reply(message: Message, body: Echo): Message {
+        incrementMessageId()
+        val responseBody = EchoOk(msgId = msgId, inReplyTo = body.msgId, echo = body.echo)
+        return buildResponseMessage(message, responseBody)
+    }
+
+    fun reply(message: Message, body: Generate): Message {
+        incrementMessageId()
+        val responseBody = GenerateOk(msgId = msgId, inReplyTo = body.msgId, id = "${id}-$msgId")
+        return buildResponseMessage(message, responseBody)
+    }
+
+    fun replyError(message: Message): Message {
+        incrementMessageId()
+        val responseBody = ErrorBody(msgId = msgId, code = 10, text = "Operation not supported", inReplyTo = message.body.msgId)
+        return message.copy(
+            src = id,
+            dest = message.src,
+            body = responseBody
         )
     }
 }

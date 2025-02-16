@@ -5,4 +5,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 sealed class Body {
     abstract val messageType: String
+    abstract val msgId: Int
 }

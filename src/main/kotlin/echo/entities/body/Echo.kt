@@ -4,9 +4,9 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-@SerialName("init_ok")
-data class InitOk(
-    override val messageType: String = "init_ok",
+@SerialName("echo")
+data class Echo(
+    override val messageType: String = "echo",
     override val msgId: Int,
-    val inReplyTo: Int
+    val echo: String
 ) : Body()

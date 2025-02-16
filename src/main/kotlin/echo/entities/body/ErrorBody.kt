@@ -4,9 +4,11 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-@SerialName("init_ok")
-data class InitOk(
-    override val messageType: String = "init_ok",
+@SerialName("error")
+data class ErrorBody(
+    override val messageType: String = "error",
     override val msgId: Int,
+    val code: Int,
+    val text: String,
     val inReplyTo: Int
-) : Body()
+): Body()
