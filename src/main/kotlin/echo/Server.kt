@@ -21,6 +21,7 @@ class Server(
         when (val body = msg.body) {
             is Init -> initializeNode(msg, body)
             is Echo -> echo(msg, body)
+            is Generate -> generate(msg, body)
             else -> unsupportedMessage(msg)
         }
     }
@@ -37,6 +38,11 @@ class Server(
 
     private fun echo(msg: Message, body: Echo) {
         log("Received echo message.")
+        reply(node.reply(msg, body))
+    }
+
+    private fun generate(msg: Message, body: Generate) {
+        log("Received generate message.")
         reply(node.reply(msg, body))
     }
 
